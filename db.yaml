@@ -1,6 +1,8 @@
 - name: installation of database 
   hosts: db
   become: yes
+  vars:
+    login_host = db.fortunechits.online
   tasks:
   - name: installing mysql-server 
     ansible.builtin.dnf:
@@ -11,3 +13,9 @@
       name: mysqld
       state: started 
       enabled: yes
+  #check password already set up
+  - name: check db connection
+    community.mysql.mysql_info:
+      login_user: root
+      login_password: ExpenseApp@1
+      login_host: "{{login_host}}"
