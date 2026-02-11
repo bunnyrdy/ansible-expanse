@@ -8,6 +8,6 @@
      state: latest
   - name: start sql server
     ansible.builtin.service:
-      name: mysqld
+      name: mysql
       enabled: yes
       start: started 
