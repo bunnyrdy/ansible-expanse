@@ -2,7 +2,7 @@
   hosts: db
   become: yes
   vars:
-    login_host = db.fortunechits.online
+    login_host:  db.fortunechits.online
   tasks:
   - name: installing mysql-server 
     ansible.builtin.dnf:
@@ -19,3 +19,9 @@
       login_user: root
       login_password: ExpenseApp@1
       login_host: "{{login_host}}"
+      filter: version
+    ignore_errors: yes
+    register: mysql_connection_output
+  - name: print result of mysql connection
+    ansible.builtin.debug:
+      msg: "output: {{mysql_connection_output}}"
