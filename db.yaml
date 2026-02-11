@@ -9,5 +9,5 @@
   - name: start sql server
     ansible.builtin.service:
       name: mysql
-      enabled: yes
       start: started 
+      enabled: yes
