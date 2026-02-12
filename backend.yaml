@@ -1,0 +1,27 @@
+- name: setting up backend of application
+  hosts: backend
+  become: yes
+  vars_prompt:
+  - name: Backenduser
+    prompt: enter the user name of the backend configuration
+    private: no
+  tasks:
+  - name: disabling the default nodejs
+    ansible.builtin.command: dnf module disable nodejs -y
+  - name: enable nodejs:20
+    ansible.builtin.command: dnf module enable node:20 -y
+
+  - name: install nodejs 
+    ansible.builtin.dnf:
+      name: nodejs
+      state: installed
+  
+  
+  - name: adding user
+    ansible.builtin.user: 
+      name: "{{Backenduser}}"
+
+  
+
+
+
