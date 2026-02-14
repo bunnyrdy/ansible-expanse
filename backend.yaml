@@ -14,11 +14,13 @@
     ansible.builtin.command: dnf module disable nodejs -y
   - name: enable nodejs:20
     ansible.builtin.command: dnf module enable nodejs:20 -y
-
-  - name: install nodejs 
+  - name: install nodejs and mysql
     ansible.builtin.dnf:
-      name: nodejs
+      name: "{{item}}"
       state: installed
+    loop:
+    - nodejs
+    - mysql
   
   
   - name: adding user
@@ -62,12 +64,15 @@
 
   - name: importing data into my sql
     community.mysql.mysql_db:
-      name: all
       login_user: root
       login_password: "{{login_password}}"
       login_host: "{{login_host}}"
       target: /app/schema/backend.sql
       state: import
+      name: all
+     
+     
+
 
 
     
