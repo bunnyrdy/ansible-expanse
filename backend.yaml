@@ -1,10 +1,7 @@
 - name: setting up backend of application
   hosts: backend
   become: yes
-  vars_prompt:
-  - name: Backenduser
-    prompt: enter the user name of the backend configuration
-    private: no
+
   vars:
     login_host:  db.fortunechits.online
     login_password: ExpenseApp@1
@@ -25,7 +22,7 @@
   
   - name: adding user
     ansible.builtin.user: 
-      name: "{{Backenduser}}"
+      name: Expense
 
   - name: creating directory
     ansible.builtin.file:
@@ -71,21 +68,21 @@
       state: import
       name: all
 
-  # - name: demon reload
-  #   ansible.builtin.systemd_service:
-  #     daemon_reload: true
+  - name: demon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
 
-  # - name: start and enable bakend service
-  #   ansible.builtin.service:
-  #     name: backend
-  #     state: started
-  #     enabled: yes
-  - name: demon reload with command 
-    ansible.builtin.command: systemctl daemon-reload
-  - name: start  bakend service with command
-    ansible.builtin.command: systemctl start backend
-  - name: enable backend with service with command
-    ansible.builtin.command: systemctl enable backend
+  - name: start and enable bakend service
+    ansible.builtin.service:
+      name: backend
+      state: started
+      enabled: yes
+  # - name: demon reload with command 
+  #   ansible.builtin.command: systemctl daemon-reload
+  # - name: start  bakend service with command
+  #   ansible.builtin.command: systemctl start backend
+  # - name: enable backend with service with command
+  #   ansible.builtin.command: systemctl enable backend
 
      
      

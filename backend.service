@@ -2,7 +2,7 @@
 Description = Backend Service
 
 [Service]
-User=expense
+User=Expense
 Environment=DB_HOST="db.fortunechits.online"
 ExecStart=/bin/node /app/index.js
 SyslogIdentifier=backend
