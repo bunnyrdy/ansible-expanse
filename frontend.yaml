@@ -2,38 +2,38 @@
   hosts: frontend
   become: yes
 
+  tasks:
+  - name: install nginx
+    ansible.builtin.dnf:
+      name: nginx
+      state: installed
+    
 
-- name: install nginx
-  ansible.builtin.dnf:
-    name: nginx
-    state: installed
-  
+  - name: Remove file (delete file)
+    ansible.builtin.file:
+      path: /usr/share/nginx/html/*
+      state: absent
 
-- name: Remove file (delete file)
-  ansible.builtin.file:
-    path: /usr/share/nginx/html/*
-    state: absent
+  - name: downloading the backend file
+    ansible.builtin.get_url:
+      url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+      dest: /tmp/frontend.zip
+  - name: unzip frontend code
+    ansible.builtin.unarchive:
+      src: /tmp/frontend.zip # by deafult checks in ansible server 
+      dest: /usr/share/nginx/html
+      remote_src: yes # this checks the file in remote server
+    
+  - name: copy  expense.conf
+    ansible.builtin.copy:
+      src: expense.conf
+      dest: /etc/nginx/default.d/expense.conf
 
-- name: downloading the backend file
-  ansible.builtin.get_url:
-    url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
-    dest: /tmp/frontend.zip
-- name: unzip frontend code
-  ansible.builtin.unarchive:
-    src: /tmp/frontend.zip # by deafult checks in ansible server 
-    dest: /usr/share/nginx/html
-    remote_src: yes # this checks the file in remote server
-  
-- name: copy  expense.conf
-  ansible.builtin.copy:
-    src: expense.conf
-    dest: /etc/nginx/default.d/expense.conf
-
-- name: start and enable nginx
-  ansible.builtin.service:
-    name: nginx
-    state: started
-    enabled: yes
+  - name: start and enable nginx
+    ansible.builtin.service:
+      name: nginx
+      state: started
+      enabled: yes
 
 
-  
+    
