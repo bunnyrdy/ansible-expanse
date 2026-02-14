@@ -71,15 +71,21 @@
       state: import
       name: all
 
-  - name: demon reload
-    ansible.builtin.systemd_service:
-      daemon_reload: true
+  # - name: demon reload
+  #   ansible.builtin.systemd_service:
+  #     daemon_reload: true
 
-  - name: start and enable bakend service
-    ansible.builtin.service:
-      name: backend
-      state: started
-      enabled: yes
+  # - name: start and enable bakend service
+  #   ansible.builtin.service:
+  #     name: backend
+  #     state: started
+  #     enabled: yes
+  - name: demon reload with command 
+    ansible.builtin.command: systemctl daemon-reload
+  - name: start  bakend service with command
+    ansible.builtin.command: systemctl start backend
+  - name: enable backend with service with command
+    ansible.builtin.command: systemctl enable backend
 
      
      
