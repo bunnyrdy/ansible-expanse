@@ -38,7 +38,7 @@
       dest: /app
       remote_src: yes # this checks the file in remote server
 
-  - name: install  npn dependencies
+  - name: install  npm dependencies
     ansible.builtin.command: npn install
     args:
       chdir: /app
